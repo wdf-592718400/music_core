@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="song">
+
+    <insert id="insert" parameterType="map">
+        insert into song
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="singerId != null">
+                singer_id,
+            </if>
+            <if test="name != null">
+                name,
+            </if>
+            <if test="introduction != null">
+                introduction,
+            </if>
+            create_time, update_time,
+            <if test="pic != null">
+                pic,
+            </if>
+            <if test="lyric != null">
+                lyric,
+            </if>
+            <if test="url != null">
+                url,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="singerId != null">
+                #{singerId},
+            </if>
+            <if test="name != null">
+                #{name},
+            </if>
+            <if test="introduction != null">
+                #{introduction},
+            </if>
+            now(), now(),
+            <if test="pic != null">
+                #{pic},
+            </if>
+            <if test="lyric != null">
+                #{lyric},
+            </if>
+            <if test="url != null">
+                #{url},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="map">
+        update song
+        <set>
+            <if test="singerId != null">
+                singer_id = #{singerId},
+            </if>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="introduction != null">
+                introduction = #{introduction},
+            </if>
+            update_time = now(),
+            <if test="pic != null">
+                pic = #{pic},
+            </if>
+            <if test="lyric != null">
+                lyric = #{lyric},
+            </if>
+            <if test="url != null">
+                url = #{url},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="map">
+        delete from song where id = #{id}
+    </delete>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="map">
+        select * from song where id = #{id}
+    </select>
+
+    <select id="allSong" resultType="map" parameterType="map">
+        select * from song order by create_time desc
+    </select>
+
+    <select id="allSongOfSelect" resultType="map" parameterType="map">
+        select * from song where true
+        <if test="id != null">
+            and id not in (
+            <foreach collection="id" item="item" index="index" separator=",">
+                #{item}
+            </foreach>
+            )
+        </if>
+    </select>
+
+    <select id="songOfName" resultType="map" parameterType="java.lang.String">
+        select * from song where name = #{name}
+    </select>
+
+    <select id="likeSongOfName" resultType="map" parameterType="java.lang.String">
+        select * from song where name like #{name}
+    </select>
+
+    <select id="songOfSingerId" resultType="map" parameterType="java.lang.Integer">
+        select * from song where singer_id = #{singerId}
+    </select>
+
+    <select id="getSongOfId" resultType="map" parameterType="java.lang.Integer">
+        select pic, url from song where id = #{id}
+    </select>
+
+</mapper>

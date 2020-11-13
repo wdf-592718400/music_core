@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="song.list">
+
+    <insert id="insert" parameterType="map">
+        insert into song_list
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="title != null">
+                title,
+            </if>
+            <if test="introduction != null">
+                introduction,
+            </if>
+            <if test="pic != null">
+                pic,
+            </if>
+            <if test="style != null">
+                style,
+            </if>
+            create_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="title != null">
+                #{title},
+            </if>
+            <if test="introduction != null">
+                #{introduction},
+            </if>
+            <if test="pic != null">
+                #{pic},
+            </if>
+            <if test="style != null">
+                #{style},
+            </if>
+            now()
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="map">
+        update song_list
+        <set>
+            <if test="title != null">
+                title = #{title},
+            </if>
+            <if test="introduction != null">
+                introduction = #{introduction},
+            </if>
+            <if test="pic != null">
+                pic = #{pic},
+            </if>
+            <if test="style != null">
+                style = #{style},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="map">
+        delete from song_list where id = #{id}
+    </delete>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="map">
+        select * from song_list where id = #{id}
+    </select>
+
+    <select id="allSongList" resultType="map" parameterType="map">
+        select * from song_list order by create_time desc
+    </select>
+
+    <select id="songListOfTitle" resultType="map" parameterType="java.lang.String">
+        select * from song_list where title = #{title}
+    </select>
+
+    <select id="likeTitle" resultType="map" parameterType="java.lang.String">
+        select * from song_list where title like #{title}
+    </select>
+
+    <select id="likeStyle" resultType="map" parameterType="java.lang.String">
+        select * from song_list where style like #{style}
+    </select>
+
+    <select id="songPicOfId" resultType="String" parameterType="java.lang.Integer">
+        select pic from song_list where id = #{id}
+    </select>
+
+    <select id="AllSongListStyle" resultType="map">
+        select style from song_list group by style
+    </select>
+
+</mapper>

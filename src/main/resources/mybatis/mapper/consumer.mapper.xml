@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="consumer">
+
+    <insert id="insert" parameterType="map">
+        insert into consumer
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="username != null">
+                username,
+            </if>
+            <if test="password != null">
+                password,
+            </if>
+            <if test="sex != null">
+                sex,
+            </if>
+            <if test="phoneNum != null">
+                phone_num,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="birth != null">
+                birth,
+            </if>
+            <if test="introduction != null">
+                introduction,
+            </if>
+            <if test="location != null">
+                location,
+            </if>
+            <if test="avator != null">
+                avator,
+            </if>
+            create_time, update_time
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="username != null">
+                #{username},
+            </if>
+            <if test="password != null">
+                #{password},
+            </if>
+            <if test="sex != null">
+                #{sex},
+            </if>
+            <if test="phoneNum != null">
+                #{phoneNum},
+            </if>
+            <if test="email != null">
+                #{email},
+            </if>
+            <if test="birth != null">
+                #{birth},
+            </if>
+            <if test="introduction != null">
+                #{introduction},
+            </if>
+            <if test="location != null">
+                #{location},
+            </if>
+            <if test="avator != null">
+                #{avator},
+            </if>
+            now(), now()
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="map">
+        update consumer
+        <set>
+            <if test="username != null">
+                username = #{username},
+            </if>
+            <if test="password != null">
+                password = #{password},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="phoneNum != null">
+                phone_num = #{phoneNum},
+            </if>
+            <if test="email != null">
+                email = #{email},
+            </if>
+            <if test="birth != null">
+                birth = #{birth},
+            </if>
+            <if test="introduction != null">
+                introduction = #{introduction},
+            </if>
+            <if test="location != null">
+                location = #{location},
+            </if>
+            <if test="avator != null">
+                avator = #{avator},
+            </if>
+            update_time = now()
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="map">
+        delete from consumer where id = #{id}
+    </delete>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="map">
+        select * from consumer where id = #{id}
+    </select>
+
+    <select id="allConsumer" resultType="map" parameterType="map">
+        select * from consumer order by create_time desc
+    </select>
+
+    <select id="verifyPassword" resultType="Integer" parameterType="map">
+        select count(*) from consumer where true
+        <if test="username != null">
+            and username = #{username}
+        </if>
+        <if test="phoneNum != null">
+            and phone_num = #{phoneNum}
+        </if>
+        <if test="email != null">
+            and email = #{email}
+        </if>
+        and password = #{password}
+    </select>
+
+    <select id="verifyUsername" resultType="Integer" parameterType="java.lang.String">
+        select count(*) from consumer where username = #{username}
+    </select>
+
+    <select id="verifyPhoneNum" resultType="Integer" parameterType="java.lang.String">
+        select count(*) from consumer where phone_num = #{phoneNum}
+    </select>
+
+    <select id="verifyEmail" resultType="Integer" parameterType="java.lang.String">
+        select count(*) from consumer where email = #{email}
+    </select>
+
+    <select id="verifyUsernameOfUpdate" resultType="Integer" parameterType="map">
+        select count(*) from consumer where username = #{username} and id != #{id}
+    </select>
+
+    <select id="verifyPhoneNumOfUpdate" resultType="Integer" parameterType="map">
+        select count(*) from consumer where phone_num = #{phoneNum} and id != #{id}
+    </select>
+
+    <select id="verifyEmailOfUpdate" resultType="Integer" parameterType="map">
+        select count(*) from consumer where email = #{email} and id != #{id}
+    </select>
+
+    <select id="getByAccountNumber" resultType="map" parameterType="map">
+        select * from consumer where true
+        <if test="username != null">
+            and username = #{username}
+        </if>
+        <if test="phoneNum != null">
+            and phone_num = #{phoneNum}
+        </if>
+        <if test="email != null">
+            and email = #{email}
+        </if>
+    </select>
+
+    <select id="getAvatorOfId" resultType="String" parameterType="Integer">
+        select avator from consumer where id = #{id}
+    </select>
+
+</mapper>

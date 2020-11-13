@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="comment">
+
+    <insert id="insert" parameterType="map">
+        insert into comment
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                id,
+            </if>
+            <if test="userId != null">
+                user_id,
+            </if>
+            <if test="type != null">
+                type,
+            </if>
+            <if test="songId != null">
+                song_id,
+            </if>
+            <if test="songListId != null">
+                song_list_id,
+            </if>
+            <if test="content != null">
+                content,
+            </if>
+            create_time,
+            <if test="up != null">
+                up,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id},
+            </if>
+            <if test="userId != null">
+                #{userId},
+            </if>
+            <if test="type != null">
+                #{type},
+            </if>
+            <if test="songId != null">
+                #{songId},
+            </if>
+            <if test="songListId != null">
+                #{songListId},
+            </if>
+            <if test="content != null">
+                #{content},
+            </if>
+            now(),
+            <if test="up != null">
+                #{up},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="update" parameterType="map">
+        update comment
+        <set>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="songId != null">
+                song_id = #{songId},
+            </if>
+            <if test="songListId != null">
+                song_list_id = #{songListId},
+            </if>
+            <if test="content != null">
+                content = #{content},
+            </if>
+            <if test="up != null">
+                up = #{up},
+            </if>
+            <if test="upUserId != null">
+                up_user_id = #{upUserId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="map">
+        delete from comment where id = #{id}
+    </delete>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="map">
+        select * from comment where id = #{id}
+    </select>
+
+    <select id="allComment" resultType="map" parameterType="map">
+        select * from comment order by up desc, create_time desc
+    </select>
+
+    <select id="commentOfSongId" resultType="map" parameterType="java.lang.Integer">
+        select * from comment where song_id = #{songId} order by up desc, create_time desc
+    </select>
+
+    <select id="commentOfSongListId" resultType="map" parameterType="java.lang.Integer">
+        select * from comment where song_list_id = #{songListId} order by up desc, create_time desc
+    </select>
+
+    <select id="upUserIdOfId" resultType="String" parameterType="java.lang.Integer">
+        select up_user_id from comment where id = #{id}
+    </select>
+
+</mapper>
